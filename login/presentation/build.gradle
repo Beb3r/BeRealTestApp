@@ -1,5 +1,5 @@
 plugins {
-    id 'com.android.application'
+    id 'com.android.library'
     id 'org.jetbrains.kotlin.android'
     id 'kotlin-kapt'
 }
@@ -8,14 +8,10 @@ apply from: rootProject.file('gradle/build-types.gradle')
 apply from: rootProject.file('gradle/module-android.gradle')
 apply from: rootProject.file('gradle/dependencies-presentation-default.gradle')
 apply from: rootProject.file('gradle/dependencies-hilt.gradle')
+apply from: rootProject.file('gradle/dependencies-coroutines.gradle')
 
 dependencies {
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
-
-    implementation "androidx.core:core-splashscreen:$splashScreenVersion"
-    implementation "androidx.navigation:navigation-compose:$navigationComposeVersion"
-
-    implementation project(':login:presentation')
 }

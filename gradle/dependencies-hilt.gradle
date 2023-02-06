@@ -1,0 +1,10 @@
+apply plugin: 'com.google.dagger.hilt.android'
+
+dependencies {
+    implementation "com.google.dagger:hilt-android:$hiltVersion"
+    kapt "com.google.dagger:hilt-compiler:$hiltVersion"
+}
+
+kapt {
+    correctErrorTypes true
+}
