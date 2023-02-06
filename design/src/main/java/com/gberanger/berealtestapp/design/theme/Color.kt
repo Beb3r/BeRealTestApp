@@ -1,4 +1,4 @@
-package com.gberanger.berealtestapp.ui.theme
+package com.gberanger.berealtestapp.design.theme
 
 import androidx.compose.ui.graphics.Color
 

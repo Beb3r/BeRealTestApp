@@ -18,4 +18,5 @@ dependencies {
     implementation "androidx.navigation:navigation-compose:$navigationComposeVersion"
 
     implementation project(':login:presentation')
+    implementation project(':design')
 }
