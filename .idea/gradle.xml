@@ -30,6 +30,8 @@
             <option value="$PROJECT_DIR$/session" />
             <option value="$PROJECT_DIR$/session/data" />
             <option value="$PROJECT_DIR$/session/domain" />
+            <option value="$PROJECT_DIR$/settings" />
+            <option value="$PROJECT_DIR$/settings/presentation" />
           </set>
         </option>
       </GradleProjectSettings>

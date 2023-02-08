@@ -30,7 +30,7 @@ import com.gberanger.berealtestapp.design.theme.white
 fun BrowserUi(
     viewModel: BrowserUiViewModel = hiltViewModel(),
     onNavigateUp: () -> Unit,
-    onNavigateToSettingsScreen: () -> Unit = {},
+    onNavigateToSettingsScreen: () -> Unit,
     modifier: Modifier = Modifier
 ) {
 

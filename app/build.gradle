@@ -33,4 +33,5 @@ dependencies {
     implementation project(':network:api-impl')
     implementation project(':session:data')
     implementation project(':session:domain')
+    implementation project(':settings:presentation')
 }

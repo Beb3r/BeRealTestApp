@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="settings_app_name" translatable="false">BeReal app test</string>
+    <string name="settings_icon_description">Profile icon</string>
+    <string name="settings_log_out">Log out</string>
+</resources>

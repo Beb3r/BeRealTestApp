@@ -13,4 +13,7 @@ interface ItemDao {
 
     @Query("SELECT * FROM ItemEntityModel WHERE parentId = :id")
     fun observeItemsByParentId(id: String): Flow<List<ItemEntityModel>>
+
+    @Query("DELETE FROM ItemEntityModel")
+    fun deleteItems()
 }

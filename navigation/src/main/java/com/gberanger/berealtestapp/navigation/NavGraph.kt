@@ -8,6 +8,7 @@ import androidx.navigation.compose.composable
 import com.gberanger.berealtestapp.browser.presentation.BrowserUi
 import com.gberanger.berealtestapp.login.presentation.LoginUi
 import com.gberanger.berealtestapp.session.domain.models.SessionStatusDomainModel
+import com.gberanger.berealtestapp.settings.presentation.SettingsUi
 
 @Composable
 fun NavGraph(
@@ -34,15 +35,27 @@ fun NavGraph(
             BrowserUi(
                 onNavigateUp = {
                     navController.navigateUp()
+                },
+                onNavigateToSettingsScreen = {
+                    navController.navigate(Screens.Settings.route)
+                }
+            )
+        }
+        composable(Screens.Settings.route) {
+            SettingsUi(
+                onNavigateToLoginScreen = {
+                    navController.navigate(Screens.Login.route) {
+                        popUpTo(Screens.Browser.route) { inclusive = true }
+
+                    }
                 }
             )
         }
     }
 }
-
 fun getStartDestination(status: SessionStatusDomainModel) =
     if (status == SessionStatusDomainModel.LOGGED_OUT){
-        "login"
+        Screens.Login.route
     } else {
-        "browser"
+        Screens.Browser.route
     }

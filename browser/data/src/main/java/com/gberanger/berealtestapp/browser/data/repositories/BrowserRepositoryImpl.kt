@@ -15,7 +15,9 @@ class BrowserRepositoryImpl @Inject constructor(
         val items = browserRemoteDataSource.fetchItemById(id)
         browserLocalDataSource.saveItems(items)
     }
-
     override suspend fun observeItemsById(id: String): Flow<List<BrowserItemDomainModel>> =
         browserLocalDataSource.observeItemsById(id)
+
+    override suspend fun clearData() =
+        browserLocalDataSource.clearData()
 }

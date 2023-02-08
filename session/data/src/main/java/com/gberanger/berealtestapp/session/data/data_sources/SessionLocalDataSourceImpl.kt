@@ -6,6 +6,9 @@ import com.gberanger.berealtestapp.session.domain.models.SessionRootItemDataDoma
 import com.gberanger.berealtestapp.session.domain.models.SessionRootItemDataDomainModel.Companion.DEFAULT_ID
 import com.gberanger.berealtestapp.session.domain.models.SessionRootItemDataDomainModel.Companion.DEFAULT_NAME
 import com.gberanger.berealtestapp.session.domain.models.SessionStatusDomainModel
+import com.gberanger.berealtestapp.session.domain.models.SessionUserDataDomainModel
+import com.gberanger.berealtestapp.session.domain.models.SessionUserDataDomainModel.Companion.DEFAULT_FIRST_NAME
+import com.gberanger.berealtestapp.session.domain.models.SessionUserDataDomainModel.Companion.DEFAULT_LAST_NAME
 import kotlinx.coroutines.flow.*
 import javax.inject.Inject
 import javax.inject.Named
@@ -42,9 +45,22 @@ class SessionLocalDataSourceImpl @Inject constructor(
     override suspend fun getRootItemData(): SessionRootItemDataDomainModel =
         SessionRootItemDataDomainModel(
             rootItemId = sharedPreferences.getString(KEY_ROOT_ITEM_ID, DEFAULT_ID) ?: DEFAULT_ID,
-            rootItemName = sharedPreferences.getString(KEY_ROOT_ITEM_NAME, DEFAULT_NAME) ?: DEFAULT_NAME
+            rootItemName = sharedPreferences.getString(KEY_ROOT_ITEM_NAME, DEFAULT_NAME)
+                ?: DEFAULT_NAME
         )
 
     override suspend fun getAccessToken(): String =
         sharedPreferences.getString(KEY_ACCESS_TOKEN, "") ?: ""
+
+    override suspend fun getUserData(): SessionUserDataDomainModel =
+        SessionUserDataDomainModel(
+            firstName = sharedPreferences.getString(KEY_FIRST_NAME, DEFAULT_FIRST_NAME)
+                ?: DEFAULT_FIRST_NAME,
+            lastName = sharedPreferences.getString(KEY_LAST_NAME, DEFAULT_LAST_NAME)
+                ?: DEFAULT_LAST_NAME,
+        )
+
+    override suspend fun clearData() {
+        sharedPreferences.edit().clear().apply()
+    }
 }

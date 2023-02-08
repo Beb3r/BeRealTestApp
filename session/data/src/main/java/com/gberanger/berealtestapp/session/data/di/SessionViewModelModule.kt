@@ -5,7 +5,6 @@ import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ViewModelComponent
-
 @Module
 @InstallIn(ViewModelComponent::class)
 interface SessionViewModelModule {
@@ -13,7 +12,12 @@ interface SessionViewModelModule {
     fun bindSessionSetDataUseCase(impl: SessionSetDataUseCaseImpl): SessionSetDataUseCase
     @Binds
     fun bindSessionGetStatusUseCase(impl: SessionGetStatusUseCaseImpl): SessionGetStatusUseCase
-
     @Binds
     fun bindSessionGetRootItemDataUseCase(impl: SessionGetRootItemDataUseCaseImpl): SessionGetRootItemDataUseCase
+
+    @Binds
+    fun bindSessionGetUserDataUseCase(impl: SessionGetUserDataUseCaseImpl): SessionGetUserDataUseCase
+
+    @Binds
+    fun bindSessionClearDataUseCase(impl: SessionClearDataUseCaseImpl): SessionClearDataUseCase
 }
