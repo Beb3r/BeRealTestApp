@@ -31,6 +31,7 @@ fun BrowserUi(
     viewModel: BrowserUiViewModel = hiltViewModel(),
     onNavigateUp: () -> Unit,
     onNavigateToSettingsScreen: () -> Unit,
+    onNavigateToVisualizer: (String) -> Unit,
     modifier: Modifier = Modifier
 ) {
 
@@ -44,10 +45,15 @@ fun BrowserUi(
     BrowserUi(
         viewState = viewState,
         onNavigateToSettingsScreen = onNavigateToSettingsScreen,
-        onItemClicked = viewModel::onItemClicked
+        onItemClicked = { id, type ->
+            if (type == BrowserItemTypeDomainModel.FOLDER) {
+                viewModel.onFolderClicked(id)
+            } else {
+                onNavigateToVisualizer(id)
+            }
+        }
     )
 }
-
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun BrowserUi(
@@ -145,7 +151,7 @@ private fun Empty() {
 private fun Items(
     paddings: PaddingValues,
     items: List<BrowserItemDomainModel>,
-    onItemClicked: (String, BrowserItemTypeDomainModel) -> Unit,
+    onItemClicked: (String, BrowserItemTypeDomainModel) -> Unit
 ) {
     LazyColumn(
         modifier = Modifier.fillMaxSize(),
@@ -171,7 +177,7 @@ private fun Item(
     id: String,
     type: BrowserItemTypeDomainModel,
     name: String,
-    onItemClicked: (String, BrowserItemTypeDomainModel) -> Unit,
+    onItemClicked: (String, BrowserItemTypeDomainModel) -> Unit
 ) {
     Box(modifier = Modifier
         .fillMaxWidth()

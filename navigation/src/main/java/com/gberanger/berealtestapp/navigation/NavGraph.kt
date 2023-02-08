@@ -10,6 +10,7 @@ import com.gberanger.berealtestapp.browser.presentation.BrowserUi
 import com.gberanger.berealtestapp.login.presentation.LoginUi
 import com.gberanger.berealtestapp.session.domain.models.SessionStatusDomainModel
 import com.gberanger.berealtestapp.settings.presentation.SettingsUi
+import com.gberanger.berealtestapp.visualizer.presentation.VisualizerUi
 import com.google.accompanist.navigation.animation.AnimatedNavHost
 import com.google.accompanist.navigation.animation.composable
 
@@ -96,6 +97,9 @@ fun NavGraph(
                 },
                 onNavigateToSettingsScreen = {
                     navController.navigate(Screens.Settings.route)
+                },
+                onNavigateToVisualizer = {
+                    navController.navigate(Screens.Visualizer.createRoute(it))
                 }
             )
         }
@@ -133,6 +137,9 @@ fun NavGraph(
                     }
                 }
             )
+        }
+        composable(Screens.Visualizer.route) {
+            VisualizerUi()
         }
     }
 }

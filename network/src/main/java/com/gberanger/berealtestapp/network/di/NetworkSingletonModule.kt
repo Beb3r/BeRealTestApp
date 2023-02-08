@@ -1,6 +1,7 @@
 package com.gberanger.berealtestapp.network.di
 
 
+import com.gberanger.berealtestapp.network.BuildConfig
 import com.gberanger.berealtestapp.network.api_impl.qualifiers.JsonDefaultQualifier
 import com.gberanger.berealtestapp.network.api_impl.qualifiers.LoggedInQualifier
 import com.gberanger.berealtestapp.network.okhttp.OAuthInterceptor
@@ -22,9 +23,6 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 object NetworkSingletonModule {
-
-    private const val BASE_URL = "http://163.172.147.216:8080"
-
     @Singleton
     @Provides
     @com.gberanger.berealtestapp.network.api_impl.qualifiers.JsonDefaultQualifier
@@ -56,7 +54,7 @@ object NetworkSingletonModule {
         okHttpClient: OkHttpClient
     ): Retrofit {
         return Retrofit.Builder()
-            .baseUrl(BASE_URL)
+            .baseUrl(BuildConfig.BASE_URL)
             .addConverterFactory(json.asConverterFactory("application/json".toMediaType()))
             .client(okHttpClient)
             .build()
@@ -91,7 +89,7 @@ object NetworkSingletonModule {
         @LoggedInQualifier okHttpClient: OkHttpClient
     ): Retrofit {
         return Retrofit.Builder()
-            .baseUrl(BASE_URL)
+            .baseUrl(BuildConfig.BASE_URL)
             .addConverterFactory(json.asConverterFactory("application/json".toMediaType()))
             .client(okHttpClient)
             .build()

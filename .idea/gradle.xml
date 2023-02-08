@@ -32,6 +32,8 @@
             <option value="$PROJECT_DIR$/session/domain" />
             <option value="$PROJECT_DIR$/settings" />
             <option value="$PROJECT_DIR$/settings/presentation" />
+            <option value="$PROJECT_DIR$/visualizer" />
+            <option value="$PROJECT_DIR$/visualizer/presentation" />
           </set>
         </option>
       </GradleProjectSettings>

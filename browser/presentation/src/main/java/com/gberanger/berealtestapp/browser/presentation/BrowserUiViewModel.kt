@@ -3,7 +3,6 @@ package com.gberanger.berealtestapp.browser.presentation
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.gberanger.berealtestapp.browser.domain.models.BrowserItemDomainModel
-import com.gberanger.berealtestapp.browser.domain.models.BrowserItemTypeDomainModel
 import com.gberanger.berealtestapp.browser.domain.use_cases.BrowserFetchItemByIdUseCase
 import com.gberanger.berealtestapp.browser.domain.use_cases.BrowserObserveItemsByIdUseCase
 import com.gberanger.berealtestapp.session.domain.use_cases.SessionGetRootItemDataUseCase
@@ -14,9 +13,7 @@ import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
-import java.util.LinkedList
 import javax.inject.Inject
-
 @HiltViewModel
 class BrowserUiViewModel @Inject constructor(
     private val sessionGetRootItemDataUseCase: SessionGetRootItemDataUseCase,
@@ -34,6 +31,7 @@ class BrowserUiViewModel @Inject constructor(
     private var job: Job? = null
     private var currentId: String? = null
     private val navigationStack = ArrayDeque<String>()
+
     init {
         job = viewModelScope.launch {
             with(sessionGetRootItemDataUseCase.invoke().rootItemId) {
@@ -47,13 +45,11 @@ class BrowserUiViewModel @Inject constructor(
         }
     }
 
-    fun onItemClicked(id: String, type: BrowserItemTypeDomainModel) {
-        if (type == BrowserItemTypeDomainModel.FOLDER) {
-            currentId?.let {
-                navigationStack.add(it)
-            }
-            browseItem(id, true)
+    fun onFolderClicked(id: String) {
+        currentId?.let {
+            navigationStack.add(it)
         }
+        browseItem(id, true)
     }
 
     fun onBackPressed(): Boolean {
