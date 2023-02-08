@@ -1,0 +1,18 @@
+plugins {
+    id 'com.android.library'
+    id 'org.jetbrains.kotlin.android'
+    id 'kotlin-kapt'
+}
+
+apply from: rootProject.file('gradle/module-android.gradle')
+apply from: rootProject.file('gradle/dependencies-hilt.gradle')
+apply from: rootProject.file('gradle/dependencies-serialization.gradle')
+apply from: rootProject.file('gradle/dependencies-retrofit.gradle')
+apply from: rootProject.file('gradle/dependencies-okhttp.gradle')
+
+dependencies {
+    testImplementation 'junit:junit:4.13.2'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.5'
+
+    implementation "com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter:0.8.0"
+}

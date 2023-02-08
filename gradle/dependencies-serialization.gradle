@@ -1,0 +1,5 @@
+apply plugin: 'kotlinx-serialization'
+
+dependencies {
+    api "org.jetbrains.kotlinx:kotlinx-serialization-json:$kotlinSerializationVersion"
+}

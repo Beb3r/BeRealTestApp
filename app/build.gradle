@@ -8,6 +8,7 @@ apply from: rootProject.file('gradle/build-types.gradle')
 apply from: rootProject.file('gradle/module-android.gradle')
 apply from: rootProject.file('gradle/dependencies-presentation-default.gradle')
 apply from: rootProject.file('gradle/dependencies-hilt.gradle')
+apply from: rootProject.file('gradle/dependencies-timber.gradle')
 
 dependencies {
     testImplementation 'junit:junit:4.13.2'
@@ -15,8 +16,17 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
 
     implementation "androidx.core:core-splashscreen:$splashScreenVersion"
-    implementation "androidx.navigation:navigation-compose:$navigationComposeVersion"
 
+    implementation project(':browser:presentation')
+    implementation project(':common')
+    implementation project(':login:data')
+    implementation project(':login:domain')
     implementation project(':login:presentation')
     implementation project(':design')
+    implementation project(':navigation')
+    implementation project(':network')
+    implementation project(':network:api')
+    implementation project(':network:api-impl')
+    implementation project(':session:data')
+    implementation project(':session:domain')
 }

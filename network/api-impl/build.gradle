@@ -1,0 +1,14 @@
+plugins {
+    id 'com.android.library'
+    id 'org.jetbrains.kotlin.android'
+    id 'kotlin-kapt'
+}
+
+apply from: rootProject.file('gradle/module-android.gradle')
+apply from: rootProject.file('gradle/dependencies-retrofit.gradle')
+apply from: rootProject.file('gradle/dependencies-okhttp.gradle')
+apply from: rootProject.file('gradle/dependencies-hilt.gradle')
+
+dependencies {
+    implementation project(':network:api')
+}

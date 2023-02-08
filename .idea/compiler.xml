@@ -1,6 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="CompilerConfiguration">
-    <bytecodeTargetLevel target="11" />
+    <bytecodeTargetLevel target="11">
+      <module name="BeRealTestApp.common-android" target="11" />
+      <module name="BeRealTestApp.common-java" target="11" />
+      <module name="BeRealTestApp.common-java.main" target="11" />
+      <module name="BeRealTestApp.common-java.test" target="11" />
+      <module name="BeRealTestApp.common_java.main" target="11" />
+      <module name="BeRealTestApp.common_java.test" target="11" />
+      <module name="BeRealTestApp.login.domain.test" target="11" />
+    </bytecodeTargetLevel>
   </component>
 </project>

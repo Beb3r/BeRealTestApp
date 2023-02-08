@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="login_hint_username">Nom d\'utilisateur</string>
+    <string name="login_hint_password">Mot de passe</string>
+    <string name="login_button">Continuer</string>
+
+    <string name="login_error_unknown">Une erreur est survenue, veuillez reessayer</string>
+</resources>

@@ -1,0 +1,10 @@
+apply plugin: 'java-library'
+apply plugin: 'kotlin'
+
+dependencies {
+    implementation "javax.inject:javax.inject:1"
+    implementation "androidx.annotation:annotation:$annotationVersion"
+}
+
+sourceCompatibility = "11"
+targetCompatibility = "11"

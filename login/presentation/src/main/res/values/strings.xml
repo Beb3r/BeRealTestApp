@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="login_logo_description" translatable="false">logo</string>
+    <string name="login_title" translatable="false">BeReal Test App</string>
+    <string name="login_hint_username">Username</string>
+    <string name="login_hint_password">Password</string>
+    <string name="login_button">Sign in</string>
+
+    <string name="login_error_unknown">An error occurred please try again</string>
+</resources>
