@@ -8,6 +8,7 @@ import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 import com.gberanger.berealtestapp.common.Result
+import timber.log.Timber
 
 class LoginGetUserUseCaseImpl @Inject constructor(
     private val loginRepository: LoginRepository,
@@ -20,7 +21,7 @@ class LoginGetUserUseCaseImpl @Inject constructor(
                 Result.Success(data)
             }
         } catch (e: Exception) {
-            println(e)
+            Timber.e(e)
             Result.Error(e)
         }
     }

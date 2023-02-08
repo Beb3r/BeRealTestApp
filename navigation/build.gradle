@@ -9,6 +9,7 @@ apply from: rootProject.file('gradle/module-android.gradle')
 apply from: rootProject.file('gradle/dependencies-presentation-default.gradle')
 apply from: rootProject.file('gradle/dependencies-hilt.gradle')
 apply from: rootProject.file('gradle/dependencies-coroutines.gradle')
+apply from: rootProject.file('gradle/dependencies-accompanist.gradle')
 
 dependencies {
     testImplementation 'junit:junit:4.13.2'

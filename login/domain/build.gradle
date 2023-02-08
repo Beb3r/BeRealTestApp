@@ -8,6 +8,7 @@ apply from: rootProject.file('gradle/build-types.gradle')
 apply from: rootProject.file('gradle/module-android.gradle')
 apply from: rootProject.file('gradle/dependencies-hilt.gradle')
 apply from: rootProject.file('gradle/dependencies-coroutines.gradle')
+apply from: rootProject.file('gradle/dependencies-timber.gradle')
 
 dependencies {
     testImplementation 'junit:junit:4.13.2'

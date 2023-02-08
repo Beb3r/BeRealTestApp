@@ -6,6 +6,7 @@ import com.gberanger.berealtestapp.session.domain.models.SessionDataDomainModel
 import com.gberanger.berealtestapp.session.domain.repositories.SessionRepository
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
+import timber.log.Timber
 import javax.inject.Inject
 
 class SessionSetDataUseCaseImpl @Inject constructor(
@@ -20,7 +21,7 @@ class SessionSetDataUseCaseImpl @Inject constructor(
                 Result.Success(Unit)
             }
         } catch (e: Exception) {
-            println(e)
+            Timber.e(e)
             Result.Error(e)
         }
     }

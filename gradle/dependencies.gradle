@@ -16,6 +16,7 @@ ext {
     hiltVersion = '2.44.2'
     hiltNavigationComposeVersion = '1.0.0'
 
+    accompanistNavigationAnimationVersion = '0.29.1-alpha'
     coroutinesVersion = '1.6.4'
     annotationVersion = '1.5.0'
     kotlinSerializationVersion = '1.4.0'

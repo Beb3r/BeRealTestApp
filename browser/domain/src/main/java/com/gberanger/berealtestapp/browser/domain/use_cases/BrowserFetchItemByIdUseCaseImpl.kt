@@ -5,6 +5,7 @@ import com.gberanger.berealtestapp.common.Result
 import com.gberanger.berealtestapp.common.di.IoDispatcher
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
+import timber.log.Timber
 import javax.inject.Inject
 
 class BrowserFetchItemByIdUseCaseImpl @Inject constructor(
@@ -19,7 +20,7 @@ class BrowserFetchItemByIdUseCaseImpl @Inject constructor(
                 Result.Success(Unit)
             }
         } catch (e: Exception) {
-            println(e)
+            Timber.e(e)
             Result.Error(e)
         }
     }
