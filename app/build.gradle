@@ -17,12 +17,16 @@ dependencies {
 
     implementation "androidx.core:core-splashscreen:$splashScreenVersion"
 
+    implementation project(':browser:data')
+    implementation project(':browser:domain')
     implementation project(':browser:presentation')
     implementation project(':common')
     implementation project(':login:data')
     implementation project(':login:domain')
     implementation project(':login:presentation')
     implementation project(':design')
+    implementation project(':persistence')
+    implementation project(':persistence:dao')
     implementation project(':navigation')
     implementation project(':network')
     implementation project(':network:api')

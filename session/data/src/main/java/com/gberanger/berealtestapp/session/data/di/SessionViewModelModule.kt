@@ -9,10 +9,11 @@ import dagger.hilt.android.components.ViewModelComponent
 @Module
 @InstallIn(ViewModelComponent::class)
 interface SessionViewModelModule {
-
     @Binds
     fun bindSessionSetDataUseCase(impl: SessionSetDataUseCaseImpl): SessionSetDataUseCase
-
     @Binds
     fun bindSessionGetStatusUseCase(impl: SessionGetStatusUseCaseImpl): SessionGetStatusUseCase
+
+    @Binds
+    fun bindSessionGetRootItemDataUseCase(impl: SessionGetRootItemDataUseCaseImpl): SessionGetRootItemDataUseCase
 }

@@ -1,0 +1,7 @@
+apply from: rootProject.file('gradle/module-java.gradle')
+apply from: rootProject.file('gradle/dependencies-serialization.gradle')
+apply from: rootProject.file('gradle/dependencies-coroutines.gradle')
+
+dependencies {
+    implementation "androidx.room:room-common:$roomVersion"
+}

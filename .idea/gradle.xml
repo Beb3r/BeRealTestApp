@@ -12,6 +12,8 @@
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/app" />
             <option value="$PROJECT_DIR$/browser" />
+            <option value="$PROJECT_DIR$/browser/data" />
+            <option value="$PROJECT_DIR$/browser/domain" />
             <option value="$PROJECT_DIR$/browser/presentation" />
             <option value="$PROJECT_DIR$/common" />
             <option value="$PROJECT_DIR$/design" />
@@ -23,6 +25,8 @@
             <option value="$PROJECT_DIR$/network" />
             <option value="$PROJECT_DIR$/network/api" />
             <option value="$PROJECT_DIR$/network/api-impl" />
+            <option value="$PROJECT_DIR$/persistence" />
+            <option value="$PROJECT_DIR$/persistence/dao" />
             <option value="$PROJECT_DIR$/session" />
             <option value="$PROJECT_DIR$/session/data" />
             <option value="$PROJECT_DIR$/session/domain" />

@@ -6,6 +6,8 @@ import com.gberanger.berealtestapp.session.data.data_sources.SessionLocalDataSou
 import com.gberanger.berealtestapp.session.data.data_sources.SessionLocalDataSourceImpl
 import com.gberanger.berealtestapp.session.data.repositories.SessionRepositoryImpl
 import com.gberanger.berealtestapp.session.domain.repositories.SessionRepository
+import com.gberanger.berealtestapp.session.domain.use_cases.SessionGetAccessTokenUseCase
+import com.gberanger.berealtestapp.session.domain.use_cases.SessionGetAccessTokenUseCaseImpl
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
@@ -25,6 +27,9 @@ interface SessionSingletonModule {
 
     @Binds
     fun bindSessionLocalDataSource(impl: SessionLocalDataSourceImpl): SessionLocalDataSource
+
+    @Binds
+    fun bindSessionGetAccessTokenUseCase(impl: SessionGetAccessTokenUseCaseImpl): SessionGetAccessTokenUseCase
 }
 
 @Module

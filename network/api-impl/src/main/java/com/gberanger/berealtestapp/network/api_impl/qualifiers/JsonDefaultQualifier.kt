@@ -1,4 +1,4 @@
-package com.gberanger.berealtestapp.network.di.qualifiers
+package com.gberanger.berealtestapp.network.api_impl.qualifiers
 
 import javax.inject.Qualifier
 

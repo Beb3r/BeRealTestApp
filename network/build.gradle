@@ -15,4 +15,7 @@ dependencies {
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
 
     implementation "com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter:0.8.0"
+    implementation project(':session:domain')
+    implementation project(':network:api')
+    implementation project(':network:api-impl')
 }

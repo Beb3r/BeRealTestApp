@@ -31,7 +31,11 @@ fun NavGraph(
                 })
         }
         composable(Screens.Browser.route) {
-            BrowserUi()
+            BrowserUi(
+                onNavigateUp = {
+                    navController.navigateUp()
+                }
+            )
         }
     }
 }

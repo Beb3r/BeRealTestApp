@@ -2,6 +2,9 @@ package com.gberanger.berealtestapp.session.data.data_sources
 
 import android.content.SharedPreferences
 import com.gberanger.berealtestapp.session.domain.models.SessionDataDomainModel
+import com.gberanger.berealtestapp.session.domain.models.SessionRootItemDataDomainModel
+import com.gberanger.berealtestapp.session.domain.models.SessionRootItemDataDomainModel.Companion.DEFAULT_ID
+import com.gberanger.berealtestapp.session.domain.models.SessionRootItemDataDomainModel.Companion.DEFAULT_NAME
 import com.gberanger.berealtestapp.session.domain.models.SessionStatusDomainModel
 import kotlinx.coroutines.flow.*
 import javax.inject.Inject
@@ -35,4 +38,13 @@ class SessionLocalDataSourceImpl @Inject constructor(
         } else {
             SessionStatusDomainModel.LOGGED_IN
         }
+
+    override suspend fun getRootItemData(): SessionRootItemDataDomainModel =
+        SessionRootItemDataDomainModel(
+            rootItemId = sharedPreferences.getString(KEY_ROOT_ITEM_ID, DEFAULT_ID) ?: DEFAULT_ID,
+            rootItemName = sharedPreferences.getString(KEY_ROOT_ITEM_NAME, DEFAULT_NAME) ?: DEFAULT_NAME
+        )
+
+    override suspend fun getAccessToken(): String =
+        sharedPreferences.getString(KEY_ACCESS_TOKEN, "") ?: ""
 }

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="browser_top_bar_action_description">Boutton des paramètres</string>
+    <string name="browser_error_unknown">Une erreur est survenue, veuillez reessayer</string>
+    <string name="browser_empty_icon_description">Icone vide</string>
+    <string name="browser_empty">Ce dossier est vide</string>
+    <string name="browser_item_icon_description">Icone de l\'item</string>
+</resources>

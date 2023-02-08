@@ -22,4 +22,5 @@ ext {
     okhttpVersion = '4.10.0'
     retrofitVersion = '2.9.0'
     timberVersion = '5.0.1'
+    roomVersion = '2.5.0'
 }
