@@ -7,8 +7,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Settings
 import androidx.compose.material3.*
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Alignment.Companion.Center
 import androidx.compose.ui.Alignment.Companion.CenterVertically
@@ -45,28 +44,34 @@ fun BrowserUi(
     BrowserUi(
         viewState = viewState,
         onNavigateToSettingsScreen = onNavigateToSettingsScreen,
-        onItemClicked = { id, type ->
+        onItemClicked = { id, name, type ->
             if (type == BrowserItemTypeDomainModel.FOLDER) {
-                viewModel.onFolderClicked(id)
+                viewModel.onFolderClicked(id, name)
             } else {
                 onNavigateToVisualizer(id)
             }
         }
     )
 }
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun BrowserUi(
     viewState: BrowserUiViewState,
     onNavigateToSettingsScreen: () -> Unit = {},
-    onItemClicked: (String, BrowserItemTypeDomainModel) -> Unit,
+    onItemClicked: (String, String, BrowserItemTypeDomainModel) -> Unit,
     modifier: Modifier = Modifier
 ) {
+    var title by remember { mutableStateOf("Browser") }
+
     Scaffold(
         topBar = {
             TopAppBar(
                 title = {
-                    Text(text = "Browser")
+                    if (viewState is BrowserUiViewState.Success) {
+                        title = viewState.folderName
+                    }
+                    Text(text = title)
                 },
                 actions = {
                     IconButton(onClick = onNavigateToSettingsScreen) {
@@ -107,10 +112,10 @@ fun BrowserUi(
                         modifier = Modifier.align(Center)
                     )
                 }
-                is BrowserUiViewState.Empty -> {
+                is BrowserUiViewState.Success.Empty -> {
                     Empty()
                 }
-                is BrowserUiViewState.Success -> {
+                is BrowserUiViewState.Success.Items -> {
                     Items(
                         paddings = paddings,
                         items = viewState.items,
@@ -151,7 +156,7 @@ private fun Empty() {
 private fun Items(
     paddings: PaddingValues,
     items: List<BrowserItemDomainModel>,
-    onItemClicked: (String, BrowserItemTypeDomainModel) -> Unit
+    onItemClicked: (String, String, BrowserItemTypeDomainModel) -> Unit
 ) {
     LazyColumn(
         modifier = Modifier.fillMaxSize(),
@@ -177,12 +182,12 @@ private fun Item(
     id: String,
     type: BrowserItemTypeDomainModel,
     name: String,
-    onItemClicked: (String, BrowserItemTypeDomainModel) -> Unit
+    onItemClicked: (String, String, BrowserItemTypeDomainModel) -> Unit
 ) {
     Box(modifier = Modifier
         .fillMaxWidth()
         .clickable {
-            onItemClicked(id, type)
+            onItemClicked(id, name, type)
         }) {
         Row() {
             Image(

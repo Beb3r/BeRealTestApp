@@ -3,6 +3,7 @@ package com.gberanger.berealtestapp.browser.presentation
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.gberanger.berealtestapp.browser.domain.models.BrowserItemDomainModel
+import com.gberanger.berealtestapp.browser.domain.models.BrowserItemTypeDomainModel
 import com.gberanger.berealtestapp.browser.domain.use_cases.BrowserFetchItemByIdUseCase
 import com.gberanger.berealtestapp.browser.domain.use_cases.BrowserObserveItemsByIdUseCase
 import com.gberanger.berealtestapp.session.domain.use_cases.SessionGetRootItemDataUseCase
@@ -14,6 +15,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+
 @HiltViewModel
 class BrowserUiViewModel @Inject constructor(
     private val sessionGetRootItemDataUseCase: SessionGetRootItemDataUseCase,
@@ -29,42 +31,42 @@ class BrowserUiViewModel @Inject constructor(
     )
 
     private var job: Job? = null
-    private var currentId: String? = null
-    private val navigationStack = ArrayDeque<String>()
+    private var currentItem: CurrentItem? = null
+    private val navigationStack = ArrayDeque<CurrentItem>()
 
     init {
         job = viewModelScope.launch {
-            with(sessionGetRootItemDataUseCase.invoke().rootItemId) {
-                currentId = this
-                browserFetchItemByIdUseCase.invoke(this)
-                observeItemsByIdUseCase.invoke(this)
+            with(sessionGetRootItemDataUseCase.invoke()) {
+                currentItem = CurrentItem(id = this.rootItemId, name = this.rootItemName)
+                browserFetchItemByIdUseCase.invoke(this.rootItemId)
+                observeItemsByIdUseCase.invoke(this.rootItemId)
                     .collect { items ->
-                        emitItems(items)
+                        emitItems(this.rootItemName, items)
                     }
             }
         }
     }
 
-    fun onFolderClicked(id: String) {
-        currentId?.let {
+    fun onFolderClicked(id: String, name: String) {
+        currentItem?.let {
             navigationStack.add(it)
         }
-        browseItem(id, true)
+        browseItem(id = id, folderName = name, refresh = true)
     }
 
     fun onBackPressed(): Boolean {
-        val previousId = navigationStack.removeLastOrNull()
-        return if (previousId != null) {
-            browseItem(previousId, false)
+        val previousItem = navigationStack.removeLastOrNull()
+        return if (previousItem != null) {
+            browseItem(id = previousItem.id, folderName = previousItem.name, refresh = false)
             false
         } else {
             true
         }
     }
 
-    private fun browseItem(id: String, refresh: Boolean) {
+    private fun browseItem(id: String, folderName: String, refresh: Boolean) {
         _state.value = BrowserUiViewState.Loading
-        currentId = id
+        currentItem = CurrentItem(id = id, name = folderName)
         job?.cancel()
         job = viewModelScope.launch {
             if (refresh) {
@@ -72,16 +74,30 @@ class BrowserUiViewModel @Inject constructor(
             }
             observeItemsByIdUseCase.invoke(id)
                 .collect { items ->
-                    emitItems(items)
+                    emitItems(folderName, items)
                 }
         }
     }
 
-    private fun emitItems(items: List<BrowserItemDomainModel>) {
+    private fun emitItems(folderName: String, items: List<BrowserItemDomainModel>) {
         if (items.isEmpty()) {
-            _state.value = BrowserUiViewState.Empty
+            _state.value = BrowserUiViewState.Success.Empty(folderName)
         } else {
-            _state.value = BrowserUiViewState.Success(items.sortedBy { it.name })
+            _state.value = BrowserUiViewState.Success.Items(folderName, sortItems(items))
         }
     }
+
+    private fun sortItems(list: List<BrowserItemDomainModel>): List<BrowserItemDomainModel> {
+        val sortedItems = mutableListOf<BrowserItemDomainModel>()
+        list.groupBy { items ->
+            items.type == BrowserItemTypeDomainModel.FOLDER
+        }.values.forEach { separatedList ->
+            separatedList.sortedBy { it.name.lowercase() }.onEach {
+                sortedItems.add(it)
+            }
+        }
+        return sortedItems
+    }
+
+    private data class CurrentItem(val id: String, val name: String)
 }
