@@ -15,15 +15,20 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.gberanger.berealtestapp.browser.domain.models.BrowserItemDomainModel
 import com.gberanger.berealtestapp.browser.domain.models.BrowserItemTypeDomainModel
 import com.gberanger.berealtestapp.common.composables.BackPressHandler
+import com.gberanger.berealtestapp.common.formatters.DateFormatter
 import com.gberanger.berealtestapp.design.theme.black
 import com.gberanger.berealtestapp.design.theme.red
 import com.gberanger.berealtestapp.design.theme.white
+import java.text.DateFormat
+import java.util.*
 
 @Composable
 fun BrowserUi(
@@ -170,6 +175,7 @@ private fun Items(
                     id = item.id,
                     type = item.type,
                     name = item.name,
+                    date = DateFormatter.toDate(item.modificationDate, Date(0)),
                     onItemClicked = onItemClicked
                 )
             }
@@ -182,6 +188,7 @@ private fun Item(
     id: String,
     type: BrowserItemTypeDomainModel,
     name: String,
+    date: Date,
     onItemClicked: (String, String, BrowserItemTypeDomainModel) -> Unit
 ) {
     Box(modifier = Modifier
@@ -189,17 +196,34 @@ private fun Item(
         .clickable {
             onItemClicked(id, name, type)
         }) {
-        Row() {
+        Row(modifier = Modifier.fillMaxWidth()) {
             Image(
                 painterResource(type.toDrawable()),
                 contentDescription = stringResource(R.string.browser_item_icon_description),
                 contentScale = ContentScale.Crop,
-                modifier = Modifier.size(64.dp)
+                modifier = Modifier
+                    .size(64.dp)
+                    .padding(16.dp)
+                    .align(CenterVertically)
             )
 
-            Spacer(modifier = Modifier.padding(horizontal = 8.dp))
+            Column(modifier = Modifier
+                .weight(1f)
+                .align(CenterVertically)) {
+                Text(text = name, color = white)
+                Text(
+                    text = stringResource(
+                        R.string.browser_item_modified_date,
+                        DateFormat.getDateInstance(DateFormat.MEDIUM).format(date)
+                    ),
+                    color = white,
+                    fontWeight = FontWeight.Light,
+                    fontSize = 12.sp,
+                    modifier = Modifier.padding(vertical = 4.dp)
+                )
+            }
 
-            Text(text = name, color = white, modifier = Modifier.align(CenterVertically))
+            
         }
     }
 }

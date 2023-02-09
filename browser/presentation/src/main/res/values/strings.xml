@@ -5,4 +5,5 @@
     <string name="browser_empty_icon_description">Empty icon</string>
     <string name="browser_empty">This folder is empty</string>
     <string name="browser_item_icon_description">Item icon</string>
+    <string name="browser_item_modified_date">Modified %1$s</string>
 </resources>
