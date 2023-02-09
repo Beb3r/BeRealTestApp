@@ -19,7 +19,7 @@ class OAuthInterceptor(
 
     override fun intercept(chain: Interceptor.Chain): Response {
         val accessToken = runBlocking {
-            getAccessTokenUseCase.invoke()
+            getAccessTokenUseCase()
         }
 
         return chain.proceed(

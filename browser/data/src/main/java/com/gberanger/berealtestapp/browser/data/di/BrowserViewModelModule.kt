@@ -12,7 +12,9 @@ interface BrowserViewModelModule {
     fun bindBrowserFetchItemByIdUseCase(impl: BrowserFetchItemByIdUseCaseImpl): BrowserFetchItemByIdUseCase
     @Binds
     fun bindBrowserObserveItemsByIdUseCase(impl: BrowserObserveItemsByIdUseCaseImpl): BrowserObserveItemsByIdUseCase
-
     @Binds
     fun bindBrowserClearDataUseCase(impl: BrowserClearDataUseCaseImpl): BrowserClearDataUseCase
+
+    @Binds
+    fun bindBrowserDeleteItemByIdUseCase(impl: BrowserDeleteItemByIdUseCaseImpl): BrowserDeleteItemByIdUseCase
 }

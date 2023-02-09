@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.gberanger.berealtestapp.browser.domain.models.BrowserItemDomainModel
 import com.gberanger.berealtestapp.browser.domain.models.BrowserItemTypeDomainModel
+import com.gberanger.berealtestapp.browser.domain.use_cases.BrowserDeleteItemByIdUseCase
 import com.gberanger.berealtestapp.browser.domain.use_cases.BrowserFetchItemByIdUseCase
 import com.gberanger.berealtestapp.browser.domain.use_cases.BrowserObserveItemsByIdUseCase
 import com.gberanger.berealtestapp.session.domain.use_cases.SessionGetRootItemDataUseCase
@@ -20,7 +21,8 @@ import javax.inject.Inject
 class BrowserUiViewModel @Inject constructor(
     private val sessionGetRootItemDataUseCase: SessionGetRootItemDataUseCase,
     private val browserFetchItemByIdUseCase: BrowserFetchItemByIdUseCase,
-    private val observeItemsByIdUseCase: BrowserObserveItemsByIdUseCase
+    private val browserObserveItemsByIdUseCase: BrowserObserveItemsByIdUseCase,
+    private val browserDeleteItemByIdUseCase: BrowserDeleteItemByIdUseCase
 ) : ViewModel() {
 
     private val _state = MutableStateFlow<BrowserUiViewState>(BrowserUiViewState.Loading)
@@ -36,10 +38,10 @@ class BrowserUiViewModel @Inject constructor(
 
     init {
         job = viewModelScope.launch {
-            with(sessionGetRootItemDataUseCase.invoke()) {
+            with(sessionGetRootItemDataUseCase()) {
                 currentItem = CurrentItem(id = this.rootItemId, name = this.rootItemName)
-                browserFetchItemByIdUseCase.invoke(this.rootItemId)
-                observeItemsByIdUseCase.invoke(this.rootItemId)
+                browserFetchItemByIdUseCase(this.rootItemId, true)
+                browserObserveItemsByIdUseCase(this.rootItemId)
                     .collect { items ->
                         emitItems(this.rootItemName, items)
                     }
@@ -53,22 +55,26 @@ class BrowserUiViewModel @Inject constructor(
         }
         browseItem(id = id, folderName = name, refresh = true)
     }
-
     fun shouldConsumeBackEvent() = navigationStack.isNotEmpty()
     fun onBackPressed() =
         navigationStack.removeLastOrNull()?.let { previousItem ->
             browseItem(id = previousItem.id, folderName = previousItem.name, refresh = false)
         }
 
+    fun onDeleteItemClicked(id: String) {
+        viewModelScope.launch {
+            browserDeleteItemByIdUseCase(id)
+        }
+    }
     private fun browseItem(id: String, folderName: String, refresh: Boolean) {
         _state.value = BrowserUiViewState.Loading
         currentItem = CurrentItem(id = id, name = folderName)
         job?.cancel()
         job = viewModelScope.launch {
             if (refresh) {
-                browserFetchItemByIdUseCase.invoke(id)
+                browserFetchItemByIdUseCase(id, false)
             }
-            observeItemsByIdUseCase.invoke(id)
+            browserObserveItemsByIdUseCase(id)
                 .collect { items ->
                     emitItems(folderName, items)
                 }

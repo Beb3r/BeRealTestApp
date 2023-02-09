@@ -39,7 +39,7 @@ class LoginUiViewModel @Inject constructor(
         )
 
         viewModelScope.launch {
-            val result = getUserUseCase.invoke(credentials)
+            val result = getUserUseCase(credentials)
             if (result is Result.Error) {
                 _state.value = LoginUiViewState.Error(Throwable())
             } else {
@@ -62,7 +62,7 @@ class LoginUiViewModel @Inject constructor(
                 rootItemName = rootItemName
 
             )
-            sessionSetDataUseCase.invoke(sessionData)
+            sessionSetDataUseCase(sessionData)
         }
     }
 }

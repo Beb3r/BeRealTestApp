@@ -11,12 +11,17 @@ class BrowserRepositoryImpl @Inject constructor(
     private val browserRemoteDataSource: BrowserRemoteDataSource,
     private val browserLocalDataSource: BrowserLocalDataSource
 ) : BrowserRepository {
-    override suspend fun fetchItemById(id: String) {
+    override suspend fun fetchItemById(id: String, rootFolder: Boolean) {
         val items = browserRemoteDataSource.fetchItemById(id)
-        browserLocalDataSource.saveItems(items)
+        browserLocalDataSource.saveItems(items, rootFolder)
     }
     override suspend fun observeItemsById(id: String): Flow<List<BrowserItemDomainModel>> =
         browserLocalDataSource.observeItemsById(id)
+
+    override suspend fun deleteItemById(id: String)  {
+        browserRemoteDataSource.deleteItemById(id)
+        browserLocalDataSource.deleteItemById(id)
+    }
 
     override suspend fun clearData() =
         browserLocalDataSource.clearData()

@@ -2,6 +2,7 @@ package com.gberanger.berealtestapp.browser.presentation
 
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -26,10 +27,12 @@ import com.gberanger.berealtestapp.browser.domain.models.BrowserItemDomainModel
 import com.gberanger.berealtestapp.browser.domain.models.BrowserItemTypeDomainModel
 import com.gberanger.berealtestapp.common.formatters.DateFormatter
 import com.gberanger.berealtestapp.design.theme.black
+import com.gberanger.berealtestapp.design.theme.dark_grey
 import com.gberanger.berealtestapp.design.theme.red
 import com.gberanger.berealtestapp.design.theme.white
 import java.text.DateFormat
 import java.util.*
+
 @Composable
 fun BrowserUi(
     viewModel: BrowserUiViewModel = hiltViewModel(),
@@ -55,8 +58,7 @@ fun BrowserUi(
                 onNavigateToVisualizer(id)
             }
         },
-        onItemMenuClicked = { id, name ->
-        }
+        onDeleteItemClicked = viewModel::onDeleteItemClicked
     )
 }
 
@@ -66,7 +68,7 @@ fun BrowserUi(
     viewState: BrowserUiViewState,
     onNavigateToSettingsScreen: () -> Unit = {},
     onItemClicked: (String, String, BrowserItemTypeDomainModel) -> Unit,
-    onItemMenuClicked: (String, String) -> Unit,
+    onDeleteItemClicked: (String) -> Unit,
     modifier: Modifier = Modifier
 ) {
     var title by remember { mutableStateOf("Browser") }
@@ -127,7 +129,7 @@ fun BrowserUi(
                         paddings = paddings,
                         items = viewState.items,
                         onItemClicked = onItemClicked,
-                        onItemMenuClicked = onItemMenuClicked,
+                        onDeleteItemClicked = onDeleteItemClicked,
                     )
                 }
             }
@@ -165,7 +167,7 @@ private fun Items(
     paddings: PaddingValues,
     items: List<BrowserItemDomainModel>,
     onItemClicked: (String, String, BrowserItemTypeDomainModel) -> Unit,
-    onItemMenuClicked: (String, String) -> Unit
+    onDeleteItemClicked: (String) -> Unit
 ) {
     LazyColumn(
         modifier = Modifier.fillMaxSize(),
@@ -181,7 +183,7 @@ private fun Items(
                     name = item.name,
                     date = DateFormatter.toDate(item.modificationDate, Date(0)),
                     onItemClicked = onItemClicked,
-                    onItemMenuClicked = onItemMenuClicked
+                    onDeleteItemClicked = onDeleteItemClicked
                 )
             }
         }
@@ -195,8 +197,10 @@ private fun Item(
     name: String,
     date: Date,
     onItemClicked: (String, String, BrowserItemTypeDomainModel) -> Unit,
-    onItemMenuClicked: (String, String) -> Unit
+    onDeleteItemClicked: (String) -> Unit
 ) {
+    var expanded by remember { mutableStateOf(false) }
+
     Box(modifier = Modifier
         .fillMaxWidth()
         .clickable {
@@ -231,16 +235,34 @@ private fun Item(
                 )
             }
 
-            IconButton(
-                modifier = Modifier.align(CenterVertically),
-                onClick = {
-                    onItemMenuClicked(id, name)
-                }) {
-                Icon(
-                    imageVector = Icons.Rounded.MoreVert,
-                    contentDescription = stringResource(R.string.browser_item_menu_description),
-                    tint = white,
-                )
+            Box(modifier = Modifier.align(CenterVertically)) {
+                IconButton(
+                    onClick = {
+                        expanded = true
+                    }) {
+                    Icon(
+                        imageVector = Icons.Rounded.MoreVert,
+                        contentDescription = stringResource(R.string.browser_item_menu_description),
+                        tint = white,
+                    )
+                }
+                DropdownMenu(
+                    expanded = expanded,
+                    onDismissRequest = { expanded = false },
+                    modifier = Modifier.background(dark_grey)
+                ) {
+                    DropdownMenuItem(
+                        onClick = {
+                            onDeleteItemClicked(id)
+                            expanded = false
+                        },
+                        text = {
+                            Text(
+                                text = stringResource(R.string.browser_item_menu_delete),
+                                color = white
+                            )
+                        })
+                }
             }
         }
     }

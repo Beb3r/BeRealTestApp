@@ -1,27 +1,21 @@
 package com.gberanger.berealtestapp.browser.domain.use_cases
 
 import com.gberanger.berealtestapp.browser.domain.repositories.BrowserRepository
-import com.gberanger.berealtestapp.common.Result
 import com.gberanger.berealtestapp.common.di.IoDispatcher
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
 import timber.log.Timber
 import javax.inject.Inject
-
-class BrowserFetchItemByIdUseCaseImpl @Inject constructor(
+class BrowserDeleteItemByIdUseCaseImpl @Inject constructor(
     private val browserRepository: BrowserRepository,
     @IoDispatcher private val ioDispatcher: CoroutineDispatcher
-): BrowserFetchItemByIdUseCase {
-
-    override suspend fun invoke(id: String, rootFolder: Boolean): Result<Any> {
-        return try {
+) : BrowserDeleteItemByIdUseCase {
+    override suspend fun invoke(id: String) =
+        try {
             withContext(ioDispatcher) {
-                browserRepository.fetchItemById(id, rootFolder)
-                Result.Success(Unit)
+                browserRepository.deleteItemById(id)
             }
         } catch (e: Exception) {
             Timber.e(e)
-            Result.Error(e)
         }
-    }
 }

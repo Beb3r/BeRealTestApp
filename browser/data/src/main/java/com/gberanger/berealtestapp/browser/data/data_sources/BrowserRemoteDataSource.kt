@@ -4,4 +4,6 @@ import com.gberanger.berealtestapp.browser.domain.models.BrowserItemDomainModel
 
 interface BrowserRemoteDataSource {
     suspend fun fetchItemById(id: String): List<BrowserItemDomainModel>
+
+    suspend fun deleteItemById(id: String)
 }

@@ -35,4 +35,5 @@ dependencies {
     implementation project(':session:data')
     implementation project(':session:domain')
     implementation project(':settings:presentation')
+    implementation project(':visualizer:presentation')
 }

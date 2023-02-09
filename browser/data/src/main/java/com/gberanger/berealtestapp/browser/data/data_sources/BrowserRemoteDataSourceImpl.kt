@@ -12,4 +12,8 @@ class BrowserRemoteDataSourceImpl @Inject constructor(
         browserApi.getItem(id).map {
             it.toDomainModel()
         }
+
+    override suspend fun deleteItemById(id: String) {
+        browserApi.deleteItemById(id)
+    }
 }

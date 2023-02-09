@@ -14,7 +14,7 @@ class MainActivityViewModel @Inject constructor(
 ) : ViewModel() {
 
     val sessionStatus = flow {
-        val status = sessionGetStatusUseCase.invoke()
+        val status = sessionGetStatusUseCase()
         emit(status)
     }.stateIn(
         scope = viewModelScope,

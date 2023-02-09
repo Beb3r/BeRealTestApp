@@ -29,7 +29,7 @@ class SettingsUiViewModel @Inject constructor(
 
     init {
         viewModelScope.launch {
-            val data = sessionGetUserDataUseCase.invoke()
+            val data = sessionGetUserDataUseCase()
             _state.value = SettingsUiViewState.Success(data.firstName, data.lastName)
         }
     }
@@ -37,8 +37,8 @@ class SettingsUiViewModel @Inject constructor(
     fun onLogoutButtonClicked() {
         _state.value = SettingsUiViewState.LogoutLoading
         viewModelScope.launch {
-            sessionClearDataUseCase.invoke()
-            browserClearDataUseCase.invoke()
+            sessionClearDataUseCase()
+            browserClearDataUseCase()
             _state.value = SettingsUiViewState.LogoutSuccess
         }
     }

@@ -7,13 +7,15 @@ import com.gberanger.berealtestapp.network.api_impl.qualifiers.LoggedInQualifier
 import com.gberanger.berealtestapp.network.api_impl.retrofit.BrowserRetrofitService
 import retrofit2.Retrofit
 import javax.inject.Inject
-
 class BrowserApiRetrofitImpl @Inject constructor(
     @LoggedInQualifier retrofit: Retrofit
 ) : BrowserApi {
 
     private val service: BrowserRetrofitService by retrofit.createService()
-
     override suspend fun getItem(id: String): List<ItemApiModel> =
         service.getItem(id)
+
+    override suspend fun deleteItemById(id: String) {
+        service.deleteItem(id)
+    }
 }

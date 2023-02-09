@@ -1,6 +1,5 @@
 package com.gberanger.berealtestapp.network.di
 
-
 import com.gberanger.berealtestapp.network.BuildConfig
 import com.gberanger.berealtestapp.network.api_impl.qualifiers.JsonDefaultQualifier
 import com.gberanger.berealtestapp.network.api_impl.qualifiers.LoggedInQualifier
@@ -19,7 +18,6 @@ import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import javax.inject.Singleton
-
 @Module
 @InstallIn(SingletonComponent::class)
 object NetworkSingletonModule {
@@ -35,8 +33,6 @@ object NetworkSingletonModule {
         explicitNulls = false
         coerceInputValues = true
     }
-
-
     @Provides
     fun provideOkHttpClient(): OkHttpClient {
         val loggingInterceptor = HttpLoggingInterceptor()
@@ -46,7 +42,6 @@ object NetworkSingletonModule {
             .addInterceptor(loggingInterceptor)
             .build()
     }
-
     @Provides
     @ExperimentalSerializationApi
     fun provideRetrofit(
@@ -59,18 +54,16 @@ object NetworkSingletonModule {
             .client(okHttpClient)
             .build()
     }
-
     @Provides
     @LoggedInQualifier
     fun provideOAuthInterceptor(
         sessionGetAccessTokenUseCase: SessionGetAccessTokenUseCase
     ): Interceptor =
         OAuthInterceptor(sessionGetAccessTokenUseCase)
-
     @Provides
     @LoggedInQualifier
     fun provideLoggedInOkHttpClient(
-        @LoggedInQualifier interceptor: Interceptor
+        @LoggedInQualifier interceptor: Interceptor,
     ): OkHttpClient {
         val loggingInterceptor = HttpLoggingInterceptor()
         loggingInterceptor.level = HttpLoggingInterceptor.Level.BODY
@@ -80,7 +73,6 @@ object NetworkSingletonModule {
             .addInterceptor(loggingInterceptor)
             .build()
     }
-
     @Provides
     @ExperimentalSerializationApi
     @LoggedInQualifier

@@ -9,9 +9,8 @@ import javax.inject.Inject
 class BrowserLocalDataSourceImpl @Inject constructor(
     private val itemDao: ItemDao
 ) : BrowserLocalDataSource {
-
-    override suspend fun saveItems(items: List<BrowserItemDomainModel>) =
-        itemDao.addItems(items.map { it.toEntityModel() })
+    override suspend fun saveItems(items: List<BrowserItemDomainModel>, rootFolder: Boolean) =
+        itemDao.addItems(items.map { it.toEntityModel() }, rootFolder)
     override suspend fun observeItemsById(id: String): Flow<List<BrowserItemDomainModel>> =
         flow {
             emitAll(
@@ -22,7 +21,8 @@ class BrowserLocalDataSourceImpl @Inject constructor(
                     }
             )
         }
-
+    override suspend fun deleteItemById(id: String) =
+        itemDao.deleteItemById(id)
     override suspend fun clearData() =
         itemDao.deleteItems()
 }

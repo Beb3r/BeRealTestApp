@@ -1,5 +1,6 @@
 package com.gberanger.berealtestapp.common.formatters
 
+import timber.log.Timber
 import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -11,17 +12,13 @@ class DateFormatter private constructor(
     locale: Locale = Locale.US,
     timeZone: TimeZone = TimeZone.getTimeZone("UTC")
 ) : SimpleDateFormat(pattern, locale) {
-
     companion object {
         private const val DEFAULT_DATE_FORMAT = "yyyy-MM-dd"
         private const val DATE_HOUR_MINUTE_SECOND_FORMAT = "yyyy-MM-dd'T'HH:mm:ssZ"
-
-        fun create(pattern: String): DateFormatter = DateFormatter(pattern)
-
         fun toDate(
             date: String?,
             defaultValue: Date,
-            pattern: String = DATE_HOUR_MINUTE_SECOND_FORMAT
+            pattern: String = DEFAULT_DATE_FORMAT
         ): Date =
             if (date == null) {
                 defaultValue
@@ -29,7 +26,7 @@ class DateFormatter private constructor(
                 try {
                     DateFormatter(pattern = pattern).parse(date)
                 } catch (e: ParseException) {
-                    println("DateFormatter | Error while parsing date: $date, trying with default format")
+                    Timber.e("DateFormatter | Error while parsing date: $date, trying with default format")
                     tryDefaultDateFormat(date, defaultValue)
                 }
             }
@@ -41,9 +38,6 @@ class DateFormatter private constructor(
                 println("DateFormatter | Error while parsing date: $date with default format")
                 defaultValue
             }
-
-        fun fromDate(date: Date, pattern: String = DEFAULT_DATE_FORMAT): String =
-            DateFormatter(pattern = pattern).format(date)
     }
 
     init {

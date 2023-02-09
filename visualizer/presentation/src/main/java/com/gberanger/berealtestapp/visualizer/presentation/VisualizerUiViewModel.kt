@@ -28,7 +28,7 @@ class VisualizerUiViewModel @Inject constructor(
     init {
         val url: String = checkNotNull(savedStateHandle["id"])
         viewModelScope.launch {
-            val accessToken = sessionGetAccessTokenUseCase.invoke()
+            val accessToken = sessionGetAccessTokenUseCase()
             _state.value = VisualizerUiViewState.Success(url, accessToken)
         }
     }
