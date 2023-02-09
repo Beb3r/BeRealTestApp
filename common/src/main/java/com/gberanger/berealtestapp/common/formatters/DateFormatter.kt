@@ -14,11 +14,11 @@ class DateFormatter private constructor(
 ) : SimpleDateFormat(pattern, locale) {
     companion object {
         private const val DEFAULT_DATE_FORMAT = "yyyy-MM-dd"
-        private const val DATE_HOUR_MINUTE_SECOND_FORMAT = "yyyy-MM-dd'T'HH:mm:ssZ"
+        private const val DATE_HOUR_MINUTE_SECOND_FORMAT = "yyyy-MM-dd'T'HH:mm:ss"
         fun toDate(
             date: String?,
             defaultValue: Date,
-            pattern: String = DEFAULT_DATE_FORMAT
+            pattern: String = DATE_HOUR_MINUTE_SECOND_FORMAT
         ): Date =
             if (date == null) {
                 defaultValue
