@@ -54,15 +54,11 @@ class BrowserUiViewModel @Inject constructor(
         browseItem(id = id, folderName = name, refresh = true)
     }
 
-    fun onBackPressed(): Boolean {
-        val previousItem = navigationStack.removeLastOrNull()
-        return if (previousItem != null) {
+    fun shouldConsumeBackEvent() = navigationStack.isNotEmpty()
+    fun onBackPressed() =
+        navigationStack.removeLastOrNull()?.let { previousItem ->
             browseItem(id = previousItem.id, folderName = previousItem.name, refresh = false)
-            false
-        } else {
-            true
         }
-    }
 
     private fun browseItem(id: String, folderName: String, refresh: Boolean) {
         _state.value = BrowserUiViewState.Loading

@@ -1,5 +1,6 @@
 package com.gberanger.berealtestapp.browser.presentation
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -22,18 +23,15 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.gberanger.berealtestapp.browser.domain.models.BrowserItemDomainModel
 import com.gberanger.berealtestapp.browser.domain.models.BrowserItemTypeDomainModel
-import com.gberanger.berealtestapp.common.composables.BackPressHandler
 import com.gberanger.berealtestapp.common.formatters.DateFormatter
 import com.gberanger.berealtestapp.design.theme.black
 import com.gberanger.berealtestapp.design.theme.red
 import com.gberanger.berealtestapp.design.theme.white
 import java.text.DateFormat
 import java.util.*
-
 @Composable
 fun BrowserUi(
     viewModel: BrowserUiViewModel = hiltViewModel(),
-    onNavigateUp: () -> Unit,
     onNavigateToSettingsScreen: () -> Unit,
     onNavigateToVisualizer: (String) -> Unit,
     modifier: Modifier = Modifier
@@ -41,9 +39,9 @@ fun BrowserUi(
 
     val viewState by viewModel.state.collectAsStateWithLifecycle()
 
-    BackPressHandler(
-        onBackPressed = viewModel::onBackPressed,
-        dispatch = onNavigateUp
+    BackHandler(
+        enabled = viewModel.shouldConsumeBackEvent(),
+        onBack = viewModel::onBackPressed
     )
 
     BrowserUi(

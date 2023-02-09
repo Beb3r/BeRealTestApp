@@ -2,9 +2,6 @@ package com.gberanger.berealtestapp.common.composables
 
 import android.graphics.Rect
 import android.view.ViewTreeObserver
-import androidx.activity.OnBackPressedCallback
-import androidx.activity.OnBackPressedDispatcher
-import androidx.activity.compose.LocalOnBackPressedDispatcherOwner
 import androidx.compose.runtime.*
 import androidx.compose.ui.platform.LocalView
 
@@ -36,33 +33,4 @@ fun keyboardAsState(): State<KeyboardState> {
     }
 
     return keyboardState
-}
-
-@Composable
-fun BackPressHandler(
-    backPressedDispatcher: OnBackPressedDispatcher? =
-        LocalOnBackPressedDispatcherOwner.current?.onBackPressedDispatcher,
-    onBackPressed: () -> Boolean,
-    dispatch: () -> Unit
-) {
-    val currentOnBackPressed by rememberUpdatedState(newValue = onBackPressed)
-
-    val backCallback = remember {
-        object : OnBackPressedCallback(true) {
-            override fun handleOnBackPressed() {
-                if (currentOnBackPressed()) {
-                    isEnabled = false
-                    dispatch()
-                }
-            }
-        }
-    }
-
-    DisposableEffect(key1 = backPressedDispatcher) {
-        backPressedDispatcher?.addCallback(backCallback)
-
-        onDispose {
-            backCallback.remove()
-        }
-    }
 }

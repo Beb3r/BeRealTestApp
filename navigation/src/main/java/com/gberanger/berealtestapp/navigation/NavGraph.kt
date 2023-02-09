@@ -92,9 +92,6 @@ fun NavGraph(
             },
         ) {
             BrowserUi(
-                onNavigateUp = {
-                    navController.navigateUp()
-                },
                 onNavigateToSettingsScreen = {
                     navController.navigate(Screens.Settings.route)
                 },
