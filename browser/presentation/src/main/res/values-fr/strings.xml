@@ -6,4 +6,5 @@
     <string name="browser_empty">Ce dossier est vide</string>
     <string name="browser_item_icon_description">Icone de l\'item</string>
     <string name="browser_item_modified_date">Modifié le %1$s</string>
+    <string name="browser_item_menu_description">Menu contextuel de l\'item</string>
 </resources>

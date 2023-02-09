@@ -6,6 +6,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.rounded.MoreVert
 import androidx.compose.material.icons.rounded.Settings
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
@@ -53,6 +54,8 @@ fun BrowserUi(
             } else {
                 onNavigateToVisualizer(id)
             }
+        },
+        onItemMenuClicked = { id, name ->
         }
     )
 }
@@ -63,6 +66,7 @@ fun BrowserUi(
     viewState: BrowserUiViewState,
     onNavigateToSettingsScreen: () -> Unit = {},
     onItemClicked: (String, String, BrowserItemTypeDomainModel) -> Unit,
+    onItemMenuClicked: (String, String) -> Unit,
     modifier: Modifier = Modifier
 ) {
     var title by remember { mutableStateOf("Browser") }
@@ -122,7 +126,8 @@ fun BrowserUi(
                     Items(
                         paddings = paddings,
                         items = viewState.items,
-                        onItemClicked = onItemClicked
+                        onItemClicked = onItemClicked,
+                        onItemMenuClicked = onItemMenuClicked,
                     )
                 }
             }
@@ -159,7 +164,8 @@ private fun Empty() {
 private fun Items(
     paddings: PaddingValues,
     items: List<BrowserItemDomainModel>,
-    onItemClicked: (String, String, BrowserItemTypeDomainModel) -> Unit
+    onItemClicked: (String, String, BrowserItemTypeDomainModel) -> Unit,
+    onItemMenuClicked: (String, String) -> Unit
 ) {
     LazyColumn(
         modifier = Modifier.fillMaxSize(),
@@ -174,7 +180,8 @@ private fun Items(
                     type = item.type,
                     name = item.name,
                     date = DateFormatter.toDate(item.modificationDate, Date(0)),
-                    onItemClicked = onItemClicked
+                    onItemClicked = onItemClicked,
+                    onItemMenuClicked = onItemMenuClicked
                 )
             }
         }
@@ -187,7 +194,8 @@ private fun Item(
     type: BrowserItemTypeDomainModel,
     name: String,
     date: Date,
-    onItemClicked: (String, String, BrowserItemTypeDomainModel) -> Unit
+    onItemClicked: (String, String, BrowserItemTypeDomainModel) -> Unit,
+    onItemMenuClicked: (String, String) -> Unit
 ) {
     Box(modifier = Modifier
         .fillMaxWidth()
@@ -205,9 +213,11 @@ private fun Item(
                     .align(CenterVertically)
             )
 
-            Column(modifier = Modifier
-                .weight(1f)
-                .align(CenterVertically)) {
+            Column(
+                modifier = Modifier
+                    .weight(1f)
+                    .align(CenterVertically)
+            ) {
                 Text(text = name, color = white)
                 Text(
                     text = stringResource(
@@ -221,7 +231,17 @@ private fun Item(
                 )
             }
 
-            
+            IconButton(
+                modifier = Modifier.align(CenterVertically),
+                onClick = {
+                    onItemMenuClicked(id, name)
+                }) {
+                Icon(
+                    imageVector = Icons.Rounded.MoreVert,
+                    contentDescription = stringResource(R.string.browser_item_menu_description),
+                    tint = white,
+                )
+            }
         }
     }
 }
